@@ -13,7 +13,6 @@ const locationsListByDistance = async (req, res) => {
     key: 'coords',
     spherical: true,
     maxDistance: 20000,
-    limit: 10
   };
   if ((!lng && lng !== 0) || (!lat && lat !== 0)) {
     return res
@@ -60,7 +59,7 @@ const locationsCreate = (req, res) => {
       coordinates: [
         parseFloat(req.body.lng),
         parseFloat(req.body.lat)
-       ]
+      ]
     },
     openingTimes: [
       {
@@ -77,37 +76,37 @@ const locationsCreate = (req, res) => {
       }
     ]
   },
-  (err, location) => {
-    if (err) {
-      res
-        .status(400)
-        .json(err);
-    } else {
-      res
-        .status(201)
-        .json(location);
-    }
-  });
+    (err, location) => {
+      if (err) {
+        res
+          .status(400)
+          .json(err);
+      } else {
+        res
+          .status(201)
+          .json(location);
+      }
+    });
 };
 
 const locationsReadOne = (req, res) => {
-    Loc
-      .findById(req.params.locationid)
-      .exec((err, location) => {
-        if (!location) {
-          return res
-            .status(404)
-            .json({"message": "location not found"});
-        } else if (err) {
-          return res
-            .status(404)
-            .json(err);
-        } else {
-          return res
-            .status(200)
-            .json(location);
-        }
-      });
+  Loc
+    .findById(req.params.locationid)
+    .exec((err, location) => {
+      if (!location) {
+        return res
+          .status(404)
+          .json({ "message": "location not found" });
+      } else if (err) {
+        return res
+          .status(404)
+          .json(err);
+      } else {
+        return res
+          .status(200)
+          .json(location);
+      }
+    });
 };
 
 const locationsUpdateOne = (req, res) => {
@@ -163,25 +162,25 @@ const locationsUpdateOne = (req, res) => {
         }
       });
     }
-  );
+    );
 };
 
 const locationsDeleteOne = (req, res) => {
-  const {locationid} = req.params;
+  const { locationid } = req.params;
   if (locationid) {
     Loc
       .findByIdAndRemove(locationid)
       .exec((err, location) => {
-          if (err) {
-            return res
-              .status(404)
-              .json(err);
-          }
-          res
-            .status(204)
-            .json(null);
+        if (err) {
+          return res
+            .status(404)
+            .json(err);
         }
-    );
+        res
+          .status(204)
+          .json(null);
+      }
+      );
   } else {
     res
       .status(404)

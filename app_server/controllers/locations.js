@@ -69,15 +69,15 @@ const homelist = (req, res) => {
     qs: {
       lng: -0.7992599,
       lat: 51.378091,
-      maxDistance: 20
+      maxDistance: 20000
     }
   };
   request(
     requestOptions,
-    (err, {statusCode}, body) => {
+    (err, { statusCode }, body) => {
       let data = [];
       if (statusCode === 200 && body.length) {
-        data = body.map( (item) => {
+        data = body.map((item) => {
           item.distance = formatDistance(item.distance);
           return item;
         });
@@ -91,7 +91,7 @@ const renderDetailPage = (req, res, location) => {
   res.render('location-info',
     {
       title: location.name,
-       pageHeader: {
+      pageHeader: {
         title: location.name,
       },
       sidebar: {
@@ -112,7 +112,7 @@ const getLocationInfo = (req, res, callback) => {
   };
   request(
     requestOptions,
-    (err, {statusCode}, body) => {
+    (err, { statusCode }, body) => {
       const data = body;
       if (statusCode === 200) {
         data.coords = {
@@ -133,10 +133,10 @@ const locationInfo = (req, res) => {
   );
 };
 
-const renderReviewForm = (req, res, {name}) => {
+const renderReviewForm = (req, res, { name }) => {
   res.render('location-review-form',
     {
-      title: `Review ${name} on Loc8r` ,
+      title: `Review ${name} on Loc8r`,
       pageHeader: { title: `Review ${name}` },
       error: req.query.err
     }
@@ -167,7 +167,7 @@ const doAddReview = (req, res) => {
   } else {
     request(
       requestOptions,
-      (err, {statusCode}, {name}) => {
+      (err, { statusCode }, { name }) => {
         if (statusCode === 201) {
           res.redirect(`/location/${locationid}`);
         } else if (statusCode === 400 && name && name === 'ValidationError') {
